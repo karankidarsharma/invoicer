@@ -1,0 +1,154 @@
+/***********************/
+/*  V A R I A B L E S  */
+/***********************/
+@component-width: 600px;
+
+@gutter: 10px;
+@thumb-image-aspect-ratio: 100%;
+@thumb-image-border-width: 2px;
+
+@thumb-image-active-border-color: #000000;
+
+@product-image-aspect-ratio: 75%;
+
+@z-index-product-image-area: 100;
+@z-index-buttons: @z-index-product-image-area + 1;
+
+@arrow-border: 2px;
+@arrow-inner: 16px;
+@arrow-height: @arrow-inner + @arrow-border*2;
+
+/**********************/
+/* Product Image Area */
+/**********************/
+.product-images-section {
+  max-width: @component-width;
+  z-index: @z-index-product-image-area;
+}
+
+.large-image-wrapper {
+  position: relative;
+}
+
+.product-image-container {
+  // position: absolute;
+  // top: 0;
+  // left: 0;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+  visibility: visible;
+
+  &[aria-hidden="true"] {
+    // use visibility hidden here for transition?
+    // visibility: hidden;
+    display: none !important;
+  }
+}
+
+.product-image-inner {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: @product-image-aspect-ratio;
+}
+
+.product-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/********************/
+/*     Buttons      */
+/********************/
+
+.image-previous,
+.image-next {
+  position: absolute;
+  top: calc(50% - @arrow-height);
+  background: black;
+  border: none;
+  z-index: @z-index-buttons;
+  height: @arrow-height*2;
+  width: @arrow-height*2;
+  margin: 0;
+  padding: 0;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+
+    content: "";
+    height: @arrow-height;
+    width: @arrow-height;
+    border-bottom: @arrow-border solid white;
+    border-left: @arrow-border solid white;
+  }
+}
+
+.image-previous {
+  left: 0;
+
+  &::before {
+    margin-top: -11px;
+    right: 0;
+    transform: rotate(45deg);
+  }
+}
+
+.image-next {
+  right: 0;
+
+  &::before {
+    left: 0;
+    margin-top: -11px;
+    transform: rotate(225deg);
+  }
+}
+
+/********************/
+/* Image Thumbnails */
+/********************/
+.thumbnails-wrapper {
+  padding: 20px 0;
+
+  ul {
+    list-style: none;
+    margin: 0 -@gutter / 2;
+    padding: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: scroll;
+
+    @media (min-width: 768px) {
+      flex-wrap: wrap;
+    }
+  }
+
+  li {
+    flex: 0 0 25%;
+  }
+
+  button {
+    border: @thumb-image-border-width solid transparent;
+    background: none;
+    margin: @gutter / 2;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    cursor: pointer;
+
+    &[aria-current="true"] {
+      border-color: @thumb-image-active-border-color;
+    }
+  }
+}
+
+/*******************/
+/* Utility classes */
+/*******************/
+img {
+  max-width: 100%;
+}
