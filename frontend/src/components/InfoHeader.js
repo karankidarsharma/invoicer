@@ -35,7 +35,7 @@ export default function InfoHeader(props) {
 	   	  			</div>
 	   	  		</div>            
 			<div className="invoice-info-div col-6">
-	   	  			<div className="invoice-flow"> Frequency 
+	   	  			<div className="invoice-flow"> <span class="header-title">Frequency </span>
 		   	  			<select value="" onChange={props.handleChange} className="invoice-flow-input">
 		   	  				<option value="">Select Frequency</option>	   	  				
 		   	  				<option value="once-only">Once Only</option>	   	  				
@@ -43,13 +43,13 @@ export default function InfoHeader(props) {
 		   	  				<option value="Every-1-week">Every 1 week</option>	   	  				
 		   	  			</select>
 	   	  			</div>
-	   	  			<div className="invoice-flow"> Invoice Number 
+	   	  			<div className="invoice-flow"> <span class="header-title">Invoice Number </span>
 		   	  			<input className="invoice-flow-input" type="text" name="invoie-number" onChange={props.handleChange}/>
 	   	  			</div>
-	   	  			<div className="invoice-flow"> Reference 
+	   	  			<div className="invoice-flow"> <span class="header-title">Reference </span>
 		   	  			<input className="invoice-flow-input" type="text" name="reference" onChange={props.handleChange}/>
 	   	  			</div>
-	   	  			<div className="invoice-flow"> Due Date 
+	   	  			<div className="invoice-flow"><span class="header-title"> Due Date </span>
 		   	  			<select className="invoice-flow-input" onChange={props.handleChange}>
 		   	  				<option value="">pease choose date</option>	   	  	 				
 		   	  				<option value="1">Due in 1 week</option>	   	  	 				

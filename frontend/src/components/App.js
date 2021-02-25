@@ -19,7 +19,6 @@ export default class App extends Component {
       localStorage.setItem("itemsData", this.state.itemsData) 
     }    
     this.handleClick = this.handleClick.bind(this)
-    this.removeMe = this.removeMe.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.calculateIndividiualTax = this.calculateIndividiualTax.bind(this)
    
@@ -38,10 +37,16 @@ componentDidMount(){
     var data = JSON.parse(localStorage.getItem('itemsData'))
     for(let j=0; j < dataLength; j++){
       var input = document.getElementsByClassName('inval'+keyId[j])
+      console.log(input)
       for(let i=0; i<input.length; i++){
         var dataName = input[i].getAttribute('data-name')
         if(data[keyId[j]][dataName] != undefined){
-          input[i].value = data[keyId[j]][dataName]
+          if(input[i].getAttribute('data-id') == 'total'){
+            input[i].innerHTML = data[keyId[j]][dataName]
+          }else{
+            input[i].value = data[keyId[j]][dataName]
+          }
+          
         }
           
       }
@@ -55,23 +60,23 @@ componentDidMount(){
 
 //################### Calculate Indivdiual Tax ####################
 calculateIndividiualTax(id){
-  // var itemsData = JSON.parse(localStorage.getItem('itemsData'))
-  // var totalElement = document.getElementById('total'+id)
-  // var qty = document.getElementById('quantity'+id).value
-  // var price = document.getElementById('price'+id).value
-  // var tax = document.getElementById('tax'+id).value
+  var itemsData = JSON.parse(localStorage.getItem('itemsData'))
+  var totalElement = document.getElementById('total'+id)
+  var qty = document.getElementById('quantity'+id).value
+  var price = document.getElementById('price'+id).value
+  var tax = document.getElementById('tax'+id).value
 
+  var idStr = id.toString()
+  if(qty == "" || price == "" || tax == ""){
 
-  // if(qty == "" || price == "" || tax == ""){
+  }else{
+    var total = qty*price - tax
 
-  // }else{
-  //   var total = qty*price - tax
-
-  //   totalElement.innerHTML = "$"+total
-  //   itemsData[id] = {"total":total}
-  //   localStorage.setItem('itemsData', itemsData)
-  // }
-  // console.log(totalElement)
+    totalElement.innerHTML = "$"+total
+    itemsData[idStr]['total'] = total
+    localStorage.setItem('itemsData', JSON.stringify(itemsData))
+  }
+  console.log(totalElement)
 }
 
 
@@ -79,6 +84,7 @@ calculateIndividiualTax(id){
 
 
 // #######################End Individual Tax #######################
+
 
 handleChange(event){
   var dataName = event.target.getAttribute("data-name")
