@@ -9,6 +9,18 @@ export default function InvoiceDetails(props) {
 	var firstData = {"0":{"itemName":""}}
 	var firstRow = ["0"]
 	var addRows = []
+
+	function delMe(id,pos){
+		console.log(id+ " I am working" + pos)
+		
+		var localRows = JSON.parse(localStorage.getItem('localRows'))
+		var position = localRows.indexOf(id)
+		var x = localRows.splice(position, 1)
+		localStorage.setItem('localRows', JSON.stringify(localRows))
+		setitemLength(localRows)
+	}
+
+
 	if(localStorage.getItem('localRows')){
 			// console.log("Hello")
 	}else{
@@ -18,6 +30,7 @@ export default function InvoiceDetails(props) {
 	
 	if(JSON.parse(localStorage.getItem('itemsData')) !=null){
 		var dataLength = Object.keys(JSON.parse(localStorage.getItem('itemsData'))).length
+		var items = JSON.parse(localStorage.getItem('localRows'))
 	} else{
 		localStorage.setItem("itemsData", JSON.stringify(firstData))
 		localStorage.setItem("localRows", JSON.stringify(firstRow))
@@ -26,8 +39,9 @@ export default function InvoiceDetails(props) {
 	// const [count, setCount] = useState(dataLength != 1 || itemsData != null?Object.keys(itemsData)[dataLength-1]:1)
 	const [count, setCount] = useState(1)
 	const [noItems, setnoItems] = useState(dataLength)
+	const [itemLength, setitemLength] = useState(items)
 
-	// console.log(noItems+" <==Test count")
+	// console.log(itemLength+" <==Test count")
 
 const nextItem = itemsData != null && dataLength > 1? Object.keys(itemsData)[dataLength-1]: 0
 
@@ -55,28 +69,24 @@ if( localStorage.getItem('localRows') && JSON.parse(localStorage.getItem('localR
 function addMore(){
 	
 	const mydateLength = JSON.parse(localStorage.getItem('localRows')).length;
-	console.log(mydateLength)
 	var data = JSON.parse(localStorage.getItem('localRows'))
 	var totalCount = parseInt(data[mydateLength - 1]) + 1
 	// if(!data.includes(String(totalCount))){
 		addRows = data
-		// console.log("OOO>>",totalCount)
-		console.log("OOO>>",addRows)
 		addRows.push(String(totalCount))
 		localStorage.setItem('localRows', JSON.stringify(addRows))
 
 	// }
 
-// console.log("First Touch")
+console.log("First Touch")
 }
 const getRows = JSON.parse(localStorage.getItem('localRows'))
-// console.log("Touched")
-console.log("===>>>>",getRows)
+console.log("Touched")
 
 // for (var i = 0; i < 3; i++) {
 //    addRows.push(i)
 //    }
-const invoiceItems = getRows.map((addRow, index) => <InvoiceItems  itemId={addRows[index]} idx={addRows[index]} removeMe={props.removeMe}  handleChange={props.handleChange}/>)
+const invoiceItems = getRows.map((addRow, index) => <InvoiceItems itemId={addRows[index]} idx={addRows[index]} removeMe={props.removeMe}  handleChange={props.handleChange} delMe={delMe}/>)
     return (
 		
         <>
@@ -89,9 +99,9 @@ const invoiceItems = getRows.map((addRow, index) => <InvoiceItems  itemId={addRo
 	   	  			<th className="text-right ">Amount</th>   	  				
 	   	  		</thead>  
                    
-				    {getRows.length != 0? invoiceItems: <InvoiceItems itemId={0} idx={0} removeMe={props.removeMe}  handleChange={props.handleChange}/>} 
-                 {/* {invoiceItems} */}
-				 
+				    {/* {getRows.length != 0? invoiceItems: <InvoiceItems itemId={0} idx={0} removeMe={props.removeMe}  handleChange={props.handleChange}/>}  */}
+                 {invoiceItems}
+				 {console.log("Reloaded")}
 				 <tr>
 	   	  				<td colspan="6" className="add-item-holder">
 	   	  					<br/>
@@ -100,7 +110,6 @@ const invoiceItems = getRows.map((addRow, index) => <InvoiceItems  itemId={addRo
 										 setCount(count + 1)
 									 }
 							  } >
-							
 						   	  			<span className="add-item">+ Add another item </span>
 						   	  	</div>
 	   	  				</td>

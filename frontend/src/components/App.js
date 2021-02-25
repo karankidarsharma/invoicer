@@ -79,25 +79,6 @@ calculateIndividiualTax(id){
 
 
 // #######################End Individual Tax #######################
-removeMe(id,pos){
-  var element = document.getElementById('item'+id);
-  var itemsData = JSON.parse(localStorage.getItem('itemsData'))
-  var localRows = JSON.parse(localStorage.getItem('localRows'))
-  var position = localRows.indexOf(id)
-  // console.log(position)
-
-  if(id != 0){
-    var x = localRows.splice(position, 1)
-    localStorage.setItem('localRows', JSON.stringify(localRows))
-     
-   
-   element.parentNode.removeChild(element);
-   delete itemsData[id]
-       console.log(id +" deleted...")
-       localStorage.setItem('itemsData', JSON.stringify(itemsData)) 
-  }
-  console.log(JSON.parse(localStorage.getItem('localRows')))
-}
 
 handleChange(event){
   var dataName = event.target.getAttribute("data-name")
